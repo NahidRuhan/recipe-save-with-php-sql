@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- The head section links our CSS styling so the login box looks modern and centered -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- Navigation bar to move around our app -->
+    <header>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="create.html">Create Recipe</a>
+            <a href="register.html" id="auth-link">Sign Up</a>
+        </nav>
+    </header>
+    <main>
+        <!-- We reuse the 'recipe-form-container' style here, but manually make it smaller using inline styles (max-width: 500px) -->
+        <section class="recipe-form-container" style="max-width: 500px; margin-top: 40px;">
+            <div class="form-header">
+                <h2>Welcome Back!</h2>
+                <p>Login to access your private recipe book.</p>
+            </div>
+            <!-- JavaScript will listen for this exact 'login-form' ID so it can intercept the data and securely send it to PHP -->
+            <form id="login-form" class="recipe-form">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <!-- type="password" automatically hides the characters (turning them into dots) as you type them! -->
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <!-- Clicking this button triggers the 'submit' event in our script.js file -->
+                <button type="submit" class="submit-btn">Login</button>
+            </form>
+        </section>
+    </main>
+    <!-- Our JavaScript brain! This handles the login process without needing to refresh the page -->
+    <script src="../script.js"></script>
+</body>
+</html>

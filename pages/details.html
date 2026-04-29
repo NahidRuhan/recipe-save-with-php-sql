@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- The head section contains meta information and links our CSS file to style the page -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Details</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- The header contains our navigation menu so users can easily get back to the home page -->
+    <header>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="create.html">Create Recipe</a>
+            <a href="login.html" id="auth-link">Login</a>
+        </nav>
+    </header>
+    
+    <main>
+        <!-- Notice how this container is completely empty! 
+             Our JavaScript file will ask the PHP server for a specific recipe's data, 
+             and then magically build all the HTML (images, ingredients, steps) directly inside this div. -->
+        <div id="recipe-details-container" class="details-page"></div>
+    </main>
+
+    <!-- Load the JavaScript brain that handles fetching the data and building the page -->
+    <script src="../script.js"></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- The <head> section contains hidden settings for the browser, like the title of the tab and links to CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Recipes</title>
+    <link rel="stylesheet" href="style.css?v=1.1">
+</head>
+<body>
+    <!-- The <body> is everything the user can actually see on the screen -->
+    
+    <header>
+        <!-- <nav> creates our navigation bar. The <a> tags are clickable links that take you to different pages -->
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="pages/create.html">Create Recipe</a>
+            <a href="pages/login.html" id="auth-link">Login</a>
+        </nav>
+    </header>
+    
+    <main>
+        <!-- The Banner Section: A big welcoming header -->
+        <section class="banner">
+            <h1>Welcome to My Recipes</h1>
+            <p>Your personal space to save and view your favorite recipes!</p>
+        </section>
+        
+        <!-- The Recipes Section: This empty container is where our JavaScript will automatically inject the recipe cards -->
+        <section class="recipes-section">
+            <h2>My Created Recipes</h2>
+            <div id="recipe-container" class="recipe-grid">
+                <!-- Inject your reference folder card components here via JavaScript -->
+                <p>Please log in to view your recipes.</p>
+            </div>
+        </section>
+    </main>
+    
+    <!-- This imports our JavaScript file so the page knows how to be interactive -->
+    <script src="script.js"></script>
+</body>
+</html>

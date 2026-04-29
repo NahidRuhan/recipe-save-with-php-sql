@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- The head section tells the browser how to set up the page and links our CSS for the design -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- The header holds our navigation menu so users can click around the app -->
+    <header>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="create.html">Create Recipe</a>
+            <a href="login.html" id="auth-link">Login</a>
+        </nav>
+    </header>
+    <main>
+        <!-- We use inline styles (style="...") here to override the CSS and make this specific box a bit thinner and green -->
+        <section class="recipe-form-container" style="max-width: 500px; margin-top: 40px;">
+            <div class="form-header" style="background-color: #10b981;">
+                <h2>Create an Account</h2>
+                <p>Start your culinary journey today.</p>
+            </div>
+            <!-- The ID 'register-form' is extremely important. Our JavaScript is actively listening for this exact ID! -->
+            <form id="register-form" class="recipe-form">
+                <div class="form-group">
+                    <label for="username">Choose Username</label>
+                    <!-- 'required' forces the user to fill out this field before the form can be submitted -->
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Choose Password</label>
+                    <!-- type="password" ensures that anyone looking over your shoulder can't see what you're typing -->
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <!-- The submit button triggers the form. We colored it green to match the header! -->
+                <button type="submit" class="submit-btn" style="background-color: #10b981;">Sign Up</button>
+            </form>
+        </section>
+    </main>
+    <!-- This loads our custom JavaScript logic so we can register the user securely without reloading the page -->
+    <script src="../script.js"></script>
+</body>
+</html>

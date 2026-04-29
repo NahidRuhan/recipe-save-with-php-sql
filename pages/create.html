@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- The head section links our CSS file to make the page look pretty -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Recipe</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <!-- The navigation bar lets us move between pages -->
+    <header>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="create.html">Create Recipe</a>
+        </nav>
+    </header>
+    <main>
+        <section class="recipe-form-container">
+            <div class="form-header">
+                <h2>Create a New Recipe</h2>
+                <p>Share your culinary masterpiece with the world.</p>
+            </div>
+            
+            <!-- The <form> groups all our inputs together so JavaScript can grab them all at once -->
+            <form id="create-recipe-form" class="recipe-form">
+                <!-- Recipe Title -->
+                <div class="form-group">
+                    <label for="title">Recipe Title</label>
+                    <!-- 'required' means the browser won't let you submit the form if this is empty -->
+                    <input type="text" id="title" name="title" placeholder="e.g., Grandma's Homemade Lasagna" required>
+                </div>
+
+                <!-- Ingredients Section -->
+                <div class="form-group">
+                    <label>Ingredients</label>
+                    <!-- This container holds our dynamic rows. JavaScript will add more rows inside here when we click the button below -->
+                    <div id="ingredients-container" class="dynamic-container">
+                        <div class="dynamic-row">
+                            <span class="drag-handle" title="Drag to reorder">☰</span>
+                            <input type="text" name="ingredients[]" placeholder="e.g., 2 cups of all-purpose flour" required>
+                        </div>
+                    </div>
+                    <!-- This button has an 'onclick' event that triggers a JavaScript function to create a new input box -->
+                    <button type="button" class="add-btn" onclick="addDynamicField('ingredients-container', 'ingredients[]', 'e.g., 2 cups of all-purpose flour')">+ Add another ingredient</button>
+                </div>
+
+                <!-- Steps Section -->
+                <div class="form-group">
+                    <label>Instructions (Steps)</label>
+                    <div id="steps-container" class="dynamic-container">
+                        <div class="dynamic-row">
+                            <span class="drag-handle" title="Drag to reorder">☰</span>
+                            <textarea name="steps[]" placeholder="Step 1" rows="2" required></textarea>
+                        </div>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addDynamicField('steps-container', 'steps[]', 'Step', true)">+ Add another step</button>
+                </div>
+
+                <!-- Pictures Section -->
+                <div class="form-group">
+                    <label>Picture URLs</label>
+                    <div id="pictures-container" class="dynamic-container">
+                        <div class="dynamic-row">
+                            <input type="url" name="pictures[]" placeholder="e.g., https://example.com/image.jpg">
+                        </div>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addDynamicField('pictures-container', 'pictures[]', 'e.g., https://example.com/image.jpg', false, 'url')">+ Add another picture URL</button>
+                </div>
+
+                <!-- Tags Section -->
+                <div class="form-group">
+                    <label>Tags (Optional)</label>
+                    <div id="tags-container" class="dynamic-container">
+                        <div class="dynamic-row">
+                            <input type="text" name="tags[]" placeholder="e.g., Easy Recipe, Diet, Cheat meal">
+                        </div>
+                    </div>
+                    <button type="button" class="add-btn" onclick="addDynamicField('tags-container', 'tags[]', 'e.g., Easy Recipe, Diet, Cheat meal')">+ Add another tag</button>
+                </div>
+
+                <!-- The submit button tells the form it's time to gather the data and let JS send it to PHP -->
+                <button type="submit" class="submit-btn">Save Recipe</button>
+            </form>
+        </section>
+    </main>
+
+    <!-- Load our JavaScript brain so the form actually works! -->
+    <script src="../script.js"></script>
+</body>
+</html>

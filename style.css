@@ -1,0 +1,407 @@
+/* --- Basic Reset --- 
+   The asterisk (*) targets literally everything on the page and resets default spacing so our design looks identical on all browsers. */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* 'body' applies to the whole page background and default text color */
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+}
+
+/* --- Header and Navigation --- 
+   These rules style the dark blue bar at the top of the screen */
+header {
+    background-color: #2c3e50;
+    padding: 1rem 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* 'display: flex' is a powerful tool that automatically lines up items side-by-side! */
+nav {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: flex;
+    gap: 20px;
+    padding: 0 20px;
+}
+
+nav a {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+nav a:hover {
+    color: #3498db;
+}
+
+#auth-link {
+    margin-left: auto; /* Pushes the login link to the right */
+}
+
+/* Main Content Area */
+main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* --- Banner Section ---
+   Gives the welcome text a nice gray background box with soft rounded corners */
+.banner {
+    background-color: #ecf0f1;
+    padding: 60px 20px;
+    text-align: center;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.banner h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.banner p {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+}
+
+/* Recipes Grid */
+.recipes-section h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 2rem;
+    width: 100%;
+}
+
+/* A 'grid' layout automatically wraps cards onto the next line if the screen gets too small (mobile friendly!) */
+.recipe-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+
+/* Create Recipe Form styling */
+.recipe-form-container {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-width: 800px;
+    margin: 0 auto;
+    overflow: hidden;
+    border: 1px solid #f3f4f6;
+}
+
+.form-header {
+    background-color: #2563eb;
+    padding: 24px 32px;
+    color: white;
+}
+
+.form-header h2 {
+    font-size: 1.875rem;
+    margin-bottom: 8px;
+}
+
+.form-header p {
+    color: #dbeafe;
+    font-size: 0.875rem;
+}
+
+.recipe-form {
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+}
+
+.recipe-form input[type="text"],
+.recipe-form input[type="url"],
+.recipe-form textarea {
+    flex: 1;
+    width: 100%;
+    padding: 12px 16px;
+    border-radius: 8px;
+    border: 1px solid #d1d5db;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.recipe-form input:focus,
+.recipe-form textarea:focus {
+    outline: none;
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.recipe-form textarea {
+    resize: vertical;
+    min-height: 60px;
+}
+
+.dynamic-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.dynamic-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+    background-color: #f9fafb;
+    padding: 4px 8px 4px 4px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    transition: border-color 0.2s;
+}
+
+.dynamic-row:hover {
+    border-color: #e5e7eb;
+}
+
+.drag-handle {
+    cursor: grab;
+    color: #9ca3af;
+    padding: 10px 8px;
+    user-select: none;
+}
+
+.add-btn {
+    align-self: flex-start;
+    background: none;
+    border: none;
+    color: #2563eb;
+    font-weight: 600;
+    font-size: 0.875rem;
+    cursor: pointer;
+    padding: 8px 0;
+}
+
+.remove-btn {
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.submit-btn {
+    background-color: #2563eb;
+    color: white;
+    padding: 16px 24px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* --- JavaScript Injected Recipe Card Styles --- */
+.recipe-card {
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    overflow: hidden;
+    border: 1px solid #f3f4f6;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.recipe-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.card-image-container {
+    position: relative;
+    height: 224px;
+    overflow: hidden;
+    background-color: #e5e7eb;
+}
+
+.card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s;
+}
+
+/* Makes the top part of the card clickable without affecting Update/Delete buttons */
+.card-link {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.recipe-card:hover .card-image {
+    transform: scale(1.05);
+}
+
+.card-content {
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 12px;
+    transition: color 0.2s;
+}
+
+.recipe-card:hover .card-title {
+    color: #2563eb;
+}
+
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.tag, .tag-more {
+    padding: 4px 10px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 9999px;
+}
+
+.tag {
+    background-color: #eff6ff;
+    color: #2563eb;
+}
+
+.tag-more {
+    background-color: #f3f4f6;
+    color: #4b5563;
+}
+
+.card-stats {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.875rem;
+    color: #6b7280;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 16px;
+}
+
+.card-stats span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-weight: 500;
+}
+
+.emoji { font-size: 1.125rem; }
+
+.card-actions {
+    padding: 0 20px 20px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid #f3f4f6;
+    padding-top: 16px;
+}
+
+.btn-update, .btn-delete {
+    flex: 1;
+    padding: 8px 0;
+    text-align: center;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    transition: background-color 0.2s;
+}
+
+.btn-update { background-color: #eff6ff; color: #2563eb; }
+.btn-update:hover { background-color: #dbeafe; }
+
+.btn-delete { background-color: #fef2f2; color: #dc2626; }
+.btn-delete:hover { background-color: #fee2e2; }
+
+/* --- JavaScript Injected Recipe Details Styles --- */
+.details-page { max-width: 1024px; margin: 0 auto; padding: 32px 20px; }
+.back-link { display: inline-flex; align-items: center; color: #2563eb; font-weight: 600; margin-bottom: 24px; text-decoration: none; transition: color 0.2s; }
+.back-link:hover { color: #1e40af; }
+.details-card { background: white; border-radius: 24px; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); overflow: hidden; border: 1px solid #f3f4f6; }
+
+/* Hero Slider */
+.hero-slider { position: relative; height: 400px; background-color: #e5e7eb; overflow: hidden; }
+.hero-slider img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.5s ease-in-out; }
+.hero-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.2) 60%, transparent 100%); }
+.hero-title-container { position: absolute; bottom: 0; left: 0; padding: 32px; width: 100%; box-sizing: border-box; }
+.hero-title { font-size: 3rem; font-weight: 800; color: white; text-shadow: 0 4px 6px rgba(0,0,0,0.5); line-height: 1.2; margin: 0; }
+
+/* Slider Controls */
+.slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.3); backdrop-filter: blur(4px); color: white; border: none; border-radius: 50%; width: 40px; height: 40px; cursor: pointer; transition: all 0.3s; opacity: 0; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+.hero-slider:hover .slider-btn { opacity: 1; }
+.slider-btn:hover { background: rgba(0,0,0,0.6); }
+.slider-btn.prev { left: 16px; }
+.slider-btn.next { right: 16px; }
+.slider-dots { position: absolute; bottom: 120px; left: 0; right: 0; display: flex; justify-content: center; gap: 8px; }
+.slider-dot { width: 10px; height: 10px; border-radius: 50%; border: none; background: rgba(255,255,255,0.4); cursor: pointer; padding: 0; transition: background 0.2s; box-shadow: 0 1px 3px rgba(0,0,0,0.3); }
+.slider-dot.active { background: white; }
+.slider-dot:hover { background: rgba(255,255,255,0.8); }
+
+/* Content Grid */
+.details-content { padding: 40px; }
+.detail-tags-container { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 32px; padding-bottom: 32px; border-bottom: 1px solid #f3f4f6; }
+.detail-tag { padding: 6px 16px; background-color: #eff6ff; color: #1d4ed8; font-size: 0.875rem; font-weight: 700; border-radius: 9999px; border: 1px solid #dbeafe; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+.details-grid { display: grid; grid-template-columns: 1fr 2fr; gap: 48px; }
+
+/* Ingredients & Steps Layout */
+.ingredients-col h2, .steps-col h2 { font-size: 1.5rem; font-weight: 700; margin-bottom: 24px; display: flex; align-items: center; gap: 8px; color: #111827; }
+.ingredients-list { list-style: none; display: flex; flex-direction: column; gap: 12px; padding: 0; margin: 0; }
+.ingredient-item { display: flex; align-items: flex-start; background: #fff7ed; padding: 12px 16px; border-radius: 12px; border: 1px solid #ffedd5; }
+.ingredient-item .bullet { color: #f97316; margin-right: 12px; font-weight: bold; }
+.ingredient-item span:last-child { color: #374151; font-weight: 500; }
+.steps-list { display: flex; flex-direction: column; gap: 24px; }
+.step-item { display: flex; gap: 16px; padding: 20px; background: #f9fafb; border-radius: 16px; border: 1px solid #f3f4f6; transition: box-shadow 0.2s; }
+.step-item:hover { box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+.step-number { flex-shrink: 0; width: 40px; height: 40px; background: #2563eb; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.125rem; box-shadow: inset 0 2px 4px rgba(0,0,0,0.2); }
+.step-text { color: #374151; line-height: 1.6; padding-top: 6px; margin: 0; }
+
+/* Responsive Details */
+@media (max-width: 768px) { 
+    .details-grid { grid-template-columns: 1fr; } 
+    .hero-title { font-size: 2.25rem; } 
+    .details-content { padding: 20px; }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Recipe</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="../index.html">Home</a>
+            <a href="create.html">Create Recipe</a>
+            <a href="login.html" id="auth-link">Login</a>
+        </nav>
+    </header>
+    <main>
+        <section class="recipe-form-container">
+            <div class="form-header">
+                <h2>Update Recipe</h2>
+                <p>Make changes to your culinary masterpiece.</p>
+            </div>
+            
+            <form id="update-recipe-form" class="recipe-form">
+                <!-- Recipe Title -->
+                <div class="form-group">
+                    <label for="title">Recipe Title</label>
+                    <input type="text" id="title" name="title" placeholder="e.g., Grandma's Homemade Lasagna" required>
+                </div>
+
+                <!-- Ingredients Section -->
+                <div class="form-group">
+                    <label>Ingredients</label>
+                    <div id="ingredients-container" class="dynamic-container">
+                        <!-- Content injected via JS -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addDynamicField('ingredients-container', 'ingredients[]', 'e.g., 2 cups of all-purpose flour')">+ Add another ingredient</button>
+                </div>
+
+                <!-- Steps Section -->
+                <div class="form-group">
+                    <label>Instructions (Steps)</label>
+                    <div id="steps-container" class="dynamic-container">
+                        <!-- Content injected via JS -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addDynamicField('steps-container', 'steps[]', 'Step', true)">+ Add another step</button>
+                </div>
+
+                <!-- Pictures Section -->
+                <div class="form-group">
+                    <label>Picture URLs</label>
+                    <div id="pictures-container" class="dynamic-container">
+                        <!-- Content injected via JS -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addDynamicField('pictures-container', 'pictures[]', 'e.g., https://example.com/image.jpg', false, 'url')">+ Add another picture URL</button>
+                </div>
+
+                <!-- Tags Section -->
+                <div class="form-group">
+                    <label>Tags (Optional)</label>
+                    <div id="tags-container" class="dynamic-container">
+                        <!-- Content injected via JS -->
+                    </div>
+                    <button type="button" class="add-btn" onclick="addDynamicField('tags-container', 'tags[]', 'e.g., Easy Recipe, Diet, Cheat meal')">+ Add another tag</button>
+                </div>
+
+                <button type="submit" class="submit-btn">Update Recipe</button>
+            </form>
+        </section>
+    </main>
+
+    <script src="../script.js"></script>
+</body>
+</html>
