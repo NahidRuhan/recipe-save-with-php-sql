@@ -1,10 +1,18 @@
 <?php
 // db.php - Handles the database connection.
 // Every other PHP file includes this file so they can talk to MySQL.
-$host = 'localhost';
-$dbname = 'recipe_app';
-$username = 'root'; // Default XAMPP username
-$password = '';     // Default XAMPP password is empty
+// $host = 'localhost';
+// $dbname = 'recipe_app';
+// $username = 'root'; // Default XAMPP username
+// $password = '';     // Default XAMPP password is empty
+
+// Load secure credentials from the external config file
+$config = require __DIR__ . '/config.php';
+
+$host = $config['host'];
+$dbname = $config['dbname'];
+$username = $config['username'];
+$password = $config['password'];
 
 try {
     // 'PDO' is the PHP tool used to securely connect to databases.

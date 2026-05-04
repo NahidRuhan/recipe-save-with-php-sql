@@ -63,6 +63,32 @@ window.deleteRecipe = async function(id) {
     }
 };
 
+// Global function to handle follow/unfollow toggle button
+window.toggleFollow = async function(userId, btnElement) {
+    try {
+        const response = await fetch(`${phpPath}toggle_follow.php`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ following_id: userId })
+        });
+        const data = await response.json();
+        
+        if (data.success) {
+            if (data.action === 'followed') {
+                btnElement.textContent = 'Unfollow';
+                btnElement.className = 'btn-delete'; // Turn red
+            } else {
+                btnElement.textContent = 'Follow';
+                btnElement.className = 'btn-update'; // Turn blue
+            }
+        } else {
+            alert(data.message || "Failed to update follow status.");
+        }
+    } catch (error) {
+        console.error("Error toggling follow:", error);
+    }
+};
+
 // --- PAGE LOGIC ---
 // "DOMContentLoaded" means: Wait until the whole HTML page is loaded before trying to run this code!
 document.addEventListener("DOMContentLoaded", () => {
@@ -76,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const authLink = document.getElementById('auth-link');
             
             const isAuthPage = window.location.pathname.includes('login.html') || window.location.pathname.includes('register.html');
-            const isProtectedPage = window.location.pathname.includes('create.html') || window.location.pathname.includes('update.html');
+            const isProtectedPage = window.location.pathname.includes('create.html') || window.location.pathname.includes('update.html') || window.location.pathname.includes('feed.html') || window.location.pathname.includes('users.html');
 
             if (data.logged_in) {
                 if (authLink) {
@@ -97,6 +123,39 @@ document.addEventListener("DOMContentLoaded", () => {
         } catch (e) { console.error('Auth check failed', e); }
     };
     checkAuth(); // Run immediately on every page load
+
+    // --- MOBILE DRAWER LOGIC ---
+    const nav = document.querySelector('nav');
+    if (nav) {
+        const authLink = document.getElementById('auth-link');
+        
+        const hamburger = document.createElement('button');
+        hamburger.className = 'hamburger-btn';
+        hamburger.innerHTML = '☰';
+        
+        const drawer = document.createElement('div');
+        drawer.className = 'nav-drawer';
+        
+        // Move all links EXCEPT auth-link into drawer
+        const links = Array.from(nav.querySelectorAll('a:not(#auth-link)'));
+        links.forEach(link => drawer.appendChild(link));
+        
+        nav.insertBefore(hamburger, nav.firstChild);
+        nav.insertBefore(drawer, authLink);
+        
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            drawer.classList.toggle('open');
+            hamburger.innerHTML = drawer.classList.contains('open') ? '✕' : '☰';
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!drawer.contains(e.target) && e.target !== hamburger) {
+                drawer.classList.remove('open');
+                hamburger.innerHTML = '☰';
+            }
+        });
+    }
 
     // 1. CREATE RECIPE LOGIC (Runs only on create.html)
     const createForm = document.getElementById('create-recipe-form');
@@ -146,7 +205,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 }
             } catch (error) {
                 console.error("Error saving recipe:", error);
-                alert("Network error! Make sure you are using http://localhost/ritu/ and XAMPP is running.");
+                alert("Network error! Please check your internet connection.");
             }
         });
     }
@@ -398,5 +457,85 @@ document.addEventListener("DOMContentLoaded", () => {
                 } else alert(data.message);
             } catch (err) { console.error(err); }
         });
+    }
+
+    // --- 6. FEED LOGIC (Runs only on feed.html) ---
+    const feedContainer = document.getElementById('feed-container');
+    if (feedContainer) {
+        const fetchFeed = async () => {
+            try {
+                const response = await fetch(`${phpPath}get_feed.php`);
+                const recipes = await response.json();
+                feedContainer.innerHTML = '';
+                if (recipes.length > 0) {
+                    recipes.forEach(recipe => {
+                        const imageUrl = recipe.pictures && recipe.pictures.length > 0 ? recipe.pictures[0] : 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?q=80&w=800&auto=format&fit=crop';
+                        const tagsHtml = recipe.tags && recipe.tags.length > 0 ? `<div class="tags-container">${recipe.tags.slice(0, 3).map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` : '';
+                        
+                        const cardHtml = `
+                            <div class="recipe-card">
+                                <a href="${pagesPath}details.html?id=${recipe.id}" class="card-link">
+                                    <div class="card-image-container"><img src="${imageUrl}" class="card-image"></div>
+                                    <div class="card-content">
+                                        <div style="font-size: 0.85rem; color: #2563eb; font-weight: bold; margin-bottom: 4px;">@${recipe.author_name}</div>
+                                        <h3 class="card-title">${recipe.title}</h3>
+                                        ${tagsHtml}
+                                        <div class="card-stats"><span><span class="emoji">🛒</span> ${(recipe.ingredients && recipe.ingredients.length) || 0} Ingredients</span><span><span class="emoji">📝</span> ${(recipe.steps && recipe.steps.length) || 0} Steps</span></div>
+                                    </div>
+                                </a>
+                            </div>
+                        `;
+                        feedContainer.insertAdjacentHTML('beforeend', cardHtml);
+                    });
+                } else {
+                    feedContainer.innerHTML = '<p>Your feed is empty. Go discover some chefs to follow!</p>';
+                }
+            } catch (err) { console.error(err); }
+        };
+        fetchFeed();
+    }
+
+    // --- 7. DISCOVER USERS LOGIC (Runs only on users.html) ---
+    const usersContainer = document.getElementById('users-container');
+    if (usersContainer) {
+        const fetchUsers = async (searchTerm = '') => {
+            try {
+                // If they typed something, add ?search=... to the URL!
+                const url = searchTerm ? `${phpPath}get_users.php?search=${encodeURIComponent(searchTerm)}` : `${phpPath}get_users.php`;
+                const response = await fetch(url);
+                const users = await response.json();
+                usersContainer.innerHTML = '';
+                
+                if (users.length > 0) {
+                    users.forEach(user => {
+                        const isFollowing = user.is_following == 1;
+                        const btnClass = isFollowing ? 'btn-delete' : 'btn-update';
+                        const btnText = isFollowing ? 'Unfollow' : 'Follow';
+                        const cardHtml = `<div class="recipe-card" style="padding: 24px; text-align: center; display: flex; flex-direction: column; justify-content: center; height: auto;">
+                            <h3 style="margin-bottom: 16px;">@${user.username}</h3>
+                            <button class="${btnClass}" style="width: 100%; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: bold;" onclick="toggleFollow(${user.id}, this)">${btnText}</button>
+                        </div>`;
+                        usersContainer.insertAdjacentHTML('beforeend', cardHtml);
+                    });
+                } else {
+                    usersContainer.innerHTML = '<p>No chefs found matching that name.</p>';
+                }
+            } catch (err) { console.error(err); }
+        };
+        
+        // Fetch all users on page load
+        fetchUsers();
+
+        // Listen for typing in the search box to dynamically filter users!
+        const searchInput = document.getElementById('user-search');
+        const searchBtn = document.getElementById('user-search-btn');
+        if (searchInput) {
+            // Real-time search as the user types
+            searchInput.addEventListener('input', (e) => fetchUsers(e.target.value));
+        }
+        if (searchBtn && searchInput) {
+            // Fallback for button click
+            searchBtn.addEventListener('click', () => fetchUsers(searchInput.value));
+        }
     }
 });

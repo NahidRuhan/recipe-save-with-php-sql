@@ -21,11 +21,11 @@ if (!isset($_GET['id'])) {
     exit;
 }
 
-// Prepare a secure SQL query to find the specific recipe. 
-// The 'AND user_id = ?' part ensures users can't snoop on other people's private recipes!
-$stmt = $pdo->prepare("SELECT * FROM recipes WHERE id = ? AND user_id = ?");
-// Fill in the '?' blanks with the requested recipe ID and the logged-in user's ID
-$stmt->execute([$_GET['id'], $userId]);
+// Prepare a secure SQL query to find the specific recipe by its ID. 
+// We removed the 'AND user_id = ?' restriction so you can view recipes from chefs you follow!
+$stmt = $pdo->prepare("SELECT * FROM recipes WHERE id = ?");
+// Fill in the '?' blank with the requested recipe ID
+$stmt->execute([$_GET['id']]);
 // Fetch the single row from the database
 $recipe = $stmt->fetch(PDO::FETCH_ASSOC);
 
